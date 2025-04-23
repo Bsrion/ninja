@@ -1,22 +1,24 @@
 <script>
+// @ts-nocheck
+    import Card from '../shared/card.svelte'; 
 let {poll = {}} = $props();
 let totalVotes = $derived(poll.voteA + poll.voteB)
 
 </script>
-
-<div class="poll">
-    <h3>{poll.question}</h3>
-    <p>Total votes: {totalVotes}</p>
-    <div class="answer">
-        <div class="percent percent-a"></div>
-        <span>{poll.answerA} ({poll.voteA})</span>
-</div>
-    <div class="answer">
-        <div class="percent percent-b"></div>
-        <span>{poll.answerB} ({poll.voteB})</span>
+<Card>
+    <div class="poll">
+        <h3>{poll.question}</h3>
+        <p>Total votes: {totalVotes}</p>
+        <div class="answer" onclick={()=>{poll.voteA++}}>
+            <div class="percent percent-a"></div>
+            <span>{poll.answerA} ({poll.voteA})</span>
     </div>
-</div>
-
+        <div class="answer" onclick={()=>{poll.voteB++}}>
+            <div class="percent percent-b"></div>
+            <span>{poll.answerB} ({poll.voteB})</span>
+        </div>
+    </div>
+</Card>
 
 <style>
 h3{
