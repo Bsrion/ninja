@@ -18,20 +18,15 @@ const toggleTab = (e) => {
     activeItem = e.detail;
     console.log(activeItem);
 }
-let polls = $state([{
-    id:1,
-    question: 'python or javaScript',
-    answerA:'python',
-    answerB:'javaScript',
-    voteA:9,
-    voteB:15
-},
-]);
+let polls = $state([])
 const handelAdd = (e)=>{
     const poll = e.detail;
     polls = [poll, ...polls];
-    console.log(polls);
-    activeItem = 'current polls'
+    activeItem = 'current polls';
+}
+const deletCardFromPolls = (e) => {
+    const id = e.detail;
+    polls = polls.filter(poll => poll.id !== id);
 }
 </script>
 
@@ -41,7 +36,7 @@ const handelAdd = (e)=>{
 
     <Tabs {activeItem} {items} on:tabChange={toggleTab}/>
     {#if activeItem === 'current polls'}
-        <PollList {polls}/>
+        <PollList {polls} on:delete = {deletCardFromPolls}/>
    {:else if activeItem === 'Add New Poll'}
     <CreatePollForm on:add = {handelAdd} />
     {/if}
@@ -55,7 +50,5 @@ const handelAdd = (e)=>{
         padding: 20px;
         color: black;
     }
-    p {
-        text-align: center;
-    }
+ 
 </style>

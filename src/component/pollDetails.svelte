@@ -5,10 +5,17 @@ let {poll = {}} = $props();
 let totalVotes = $derived(poll.voteA + poll.voteB);
 let firstanswer = $derived(Math.floor(poll.voteA / totalVotes * 100));
 let secondanswer = $derived(Math.floor(poll.voteB / totalVotes * 100));
+import { createEventDispatcher } from "svelte";
+let dispatch = createEventDispatcher();
 
 </script>
 <Card>
     <div class="poll">
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <span deleteCard onclick={()=>{
+            dispatch('delete', poll.id);}}
+            onkeydown={(e)=>{if(e.key === 'Enter')
+            {dispatch('delete', poll.id)}}} class="deleteCard"> X </span>
         <h3>{poll.question}</h3>
         <p>Total votes: {totalVotes}</p>
         <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -60,5 +67,17 @@ span{
 .percent-b{
     background-color: rgba(69, 196 , 50, 0.2);
     border-left: solid 4px rgba(69, 196 , 50, 1);
+}
+.poll{
+ 
+    position: relative;
+    box-sizing: border-box;
+}
+.deleteCard{
+    position: absolute;
+    top: 0px;
+    right:0px;
+    color: #aaa;
+    cursor: pointer;
 }
 </style>
